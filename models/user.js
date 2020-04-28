@@ -26,21 +26,6 @@ const userSchema = new mongoose.Schema({
     minlength: 8,
     select: false,
   },
-  avatar: {
-    type: String,
-    required: true,
-    validate: {
-      validator(v) {
-        return /^https?:\/\/((((([0-1]?[0-9]?[0-9])|(2[0-4][0-9])|(25[0-5]))\.){3}(([0-1]?[0-9]?[0-9])|(2[0-4][0-9])|(25[0-5])))|((www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}\/?))(:\d{2,5})?(\/([0-9a-zA-Z/._:-]+)?#?)?$/.test(v);
-      },
-    },
-  },
-  about: {
-    type: String,
-    required: true,
-    minlength: 2,
-    maxlength: 30,
-  },
 });
 
 userSchema.statics.findUserByCredentials = function findUserByCreds(email, password) {

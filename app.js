@@ -8,7 +8,7 @@ const { errors } = require('celebrate');
 
 const { DATABASE_URL, PORT } = require('./config.js');
 const usersRouter = require('./routes/users.js');
-const cardsRouter = require('./routes/cards.js');
+const articlesRouter = require('./routes/articles.js');
 const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const { NotFoundError } = require('./errors/not-found-error');
@@ -58,7 +58,7 @@ app.post('/signup', celebrate({
 
 app.use(auth);
 app.use('/', usersRouter);
-app.use('/', cardsRouter);
+app.use('/', articlesRouter);
 
 app.use(() => {
   throw new NotFoundError('Page not found');
