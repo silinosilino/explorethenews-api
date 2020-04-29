@@ -11,9 +11,11 @@ module.exports.getArticles = (req, res, next) => {
 };
 
 module.exports.createArticle = (req, res, next) => {
-  const { name, link } = req.body;
+  const {
+    keyword, title, text, date, sourse, link, image,
+  } = req.body;
   Article.create({
-    name, link, owner: req.user._id, likes: [],
+    keyword, title, text, date, sourse, link, image, owner: req.user._id,
   })
     .then((article) => res.status(200).send({ data: article }))
     .catch((err) => {
@@ -38,19 +40,19 @@ module.exports.deleteArticle = (req, res, next) => {
     .catch(next);
 };
 
-module.exports.likeArticle = (req, res, next) => Article.findByIdAndUpdate(
-  req.params.articleId,
-  { $addToSet: { likes: req.user._id } },
-  { new: true },
-).orFail(() => new NotFoundError('Article not found'))
-  .populate(['owner', 'likes'])
-  .then((article) => res.status(200).send({ data: article }))
-  .catch(next);
+// module.exports.likeArticle = (req, res, next) => Article.findByIdAndUpdate(
+//   req.params.articleId,
+//   { $addToSet: { likes: req.user._id } },
+//   { new: true },
+// ).orFail(() => new NotFoundError('Article not found'))
+//   .populate(['owner', 'likes'])
+//   .then((article) => res.status(200).send({ data: article }))
+//   .catch(next);
 
-module.exports.dislikeArticle = (req, res, next) => Article.findByIdAndUpdate(
-  req.params.articleId,
-  { $pull: { likes: req.user._id } },
-  { new: true },
-).orFail(() => new NotFoundError('Article not found'))
-  .then((article) => res.status(200).send({ data: article }))
-  .catch(next);
+// module.exports.dislikeArticle = (req, res, next) => Article.findByIdAndUpdate(
+//   req.params.articleId,
+//   { $pull: { likes: req.user._id } },
+//   { new: true },
+// ).orFail(() => new NotFoundError('Article not found'))
+//   .then((article) => res.status(200).send({ data: article }))
+//   .catch(next);
