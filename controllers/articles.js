@@ -4,9 +4,7 @@ const { ForbiddenError } = require('../errors/forbiddenError');
 const { ValidationError } = require('../errors/validationError');
 
 module.exports.getArticles = (req, res, next) => {
-  // Article.find({ })
   Article.find({ owner: req.user._id })
-    // .populate(['owner', 'likes'])
     .then((articles) => res.status(200).send({ data: articles }))
     .catch(next);
 };
@@ -40,20 +38,3 @@ module.exports.deleteArticle = (req, res, next) => {
     })
     .catch(next);
 };
-
-// module.exports.likeArticle = (req, res, next) => Article.findByIdAndUpdate(
-//   req.params.articleId,
-//   { $addToSet: { likes: req.user._id } },
-//   { new: true },
-// ).orFail(() => new NotFoundError('Article not found'))
-//   .populate(['owner', 'likes'])
-//   .then((article) => res.status(200).send({ data: article }))
-//   .catch(next);
-
-// module.exports.dislikeArticle = (req, res, next) => Article.findByIdAndUpdate(
-//   req.params.articleId,
-//   { $pull: { likes: req.user._id } },
-//   { new: true },
-// ).orFail(() => new NotFoundError('Article not found'))
-//   .then((article) => res.status(200).send({ data: article }))
-//   .catch(next);

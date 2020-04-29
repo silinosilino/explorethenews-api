@@ -24,16 +24,4 @@ articlesRouter.delete('/articles/:articleId', celebrate({
   }),
 }), deleteArticle);
 
-// articlesRouter.put('/articles/:articleId/likes', celebrate({
-//   params: Joi.object().keys({
-//     articleId: Joi.string().min(24).max(24),
-//   }),
-// }), likeArticle);
-
-// articlesRouter.delete('/articles/:articleId/likes', celebrate({
-//   params: Joi.object().keys({
-//     articleId: Joi.string().min(24).max(24),
-//   }),
-// }), dislikeArticle);
-
 module.exports = articlesRouter;

@@ -13,18 +13,6 @@ module.exports.getUserInfo = (req, res, next) => {
     .catch(next);
 };
 
-// module.exports.getUsers = (req, res, next) => {
-//   User.find({})
-//     .then((users) => res.status(200).send({ data: users }))
-//     .catch(next);
-// };
-
-// module.exports.doesUserExist = (req, res, next) => {
-//   User.findById(req.params.id).orFail(() => new NotFoundError('User not found'))
-//     .then((user) => res.status(200).send({ data: user }))
-//     .catch(next);
-// };
-
 module.exports.createUser = (req, res, next) => {
   const {
     name, about, avatar, email, password,
