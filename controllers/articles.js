@@ -17,7 +17,7 @@ module.exports.createArticle = (req, res, next) => {
   Article.create({
     keyword, title, text, date, source, link, image, owner: req.user._id,
   })
-    .then((article) => res.status(200).send({ data: article.omitPrivate() }))
+    .then((article) => res.status(201).send({ data: article.omitPrivate() }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return next(new ValidationError('Incorrect input'));
