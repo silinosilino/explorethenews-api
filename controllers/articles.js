@@ -4,9 +4,10 @@ const { ForbiddenError } = require('../errors/forbiddenError');
 const { ValidationError } = require('../errors/validationError');
 
 module.exports.getArticles = (req, res, next) => {
-  Article.find({})
-    .populate(['owner', 'likes'])
-    .then((article) => res.status(200).send({ data: article }))
+  // Article.find({ })
+  Article.find({ owner: req.user._id })
+    // .populate(['owner', 'likes'])
+    .then((articles) => res.status(200).send({ data: articles }))
     .catch(next);
 };
 
