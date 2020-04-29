@@ -5,7 +5,8 @@ const { ValidationError } = require('../errors/validationError');
 
 module.exports.getArticles = (req, res, next) => {
   Article.find({ owner: req.user._id })
-    .then((articles) => res.status(200).send({ data: articles }))
+    .then((articles) => res.status(200)
+      .send({ data: articles.map((article) => article.omitPrivate()) }))
     .catch(next);
 };
 
@@ -30,7 +31,7 @@ module.exports.deleteArticle = (req, res, next) => {
     .then((article) => {
       if (article.owner.equals(req.user._id)) {
         Article.findByIdAndRemove(req.params.articleId)
-          .then((item) => res.status(200).send({ data: item }))
+          .then((item) => res.status(200).send({ data: item.omitPrivate() }))
           .catch(next);
       } else {
         throw new ForbiddenError('This article belongs to another user');
