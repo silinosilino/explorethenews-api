@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { celebrate, Joi } = require('celebrate');
 const { errors } = require('celebrate');
+const helmet = require('helmet');
 
 const { DATABASE_URL, PORT } = require('./config.js');
 const usersRouter = require('./routes/users.js');
@@ -25,6 +26,7 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(helmet());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
