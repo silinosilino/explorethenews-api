@@ -7,6 +7,7 @@ const { celebrate, Joi } = require('celebrate');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
 
+const limiter = require('./middlewares/rateLimit');
 const { DATABASE_URL, PORT } = require('./config.js');
 const usersRouter = require('./routes/users.js');
 const articlesRouter = require('./routes/articles.js');
@@ -27,6 +28,7 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(helmet());
+app.use(limiter);
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
