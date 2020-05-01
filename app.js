@@ -13,6 +13,7 @@ const usersRouter = require('./routes/users.js');
 const articlesRouter = require('./routes/articles.js');
 const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
+const { errorHandler } = require('./errors/errorHandler');
 const { NotFoundError } = require('./errors/not-found-error');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
@@ -37,11 +38,11 @@ app.use(bodyParser.urlencoded({
 
 app.use(requestLogger);
 
-app.get('/crash-test', () => {
-  setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
-  }, 0);
-});
+// app.get('/crash-test', () => {
+//   setTimeout(() => {
+//     throw new Error('Сервер сейчас упадёт');
+//   }, 0);
+// });
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
@@ -70,17 +71,18 @@ app.use(errorLogger);
 
 app.use(errors());
 
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
+app.use(errorHandler);
+// app.use((err, req, res, next) => {
+//   const { statusCode = 500, message } = err;
 
-  res
-    .status(statusCode)
-    .send({
-      message: statusCode === 500
-        ? 'Server error'
-        : message,
-    });
-  next();
-});
+//   res
+//     .status(statusCode)
+//     .send({
+//       message: statusCode === 500
+//         ? 'Server error'
+//         : message,
+//     });
+//   next();
+// });
 
 app.listen(PORT);
