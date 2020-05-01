@@ -38,12 +38,6 @@ app.use(bodyParser.urlencoded({
 
 app.use(requestLogger);
 
-// app.get('/crash-test', () => {
-//   setTimeout(() => {
-//     throw new Error('Сервер сейчас упадёт');
-//   }, 0);
-// });
-
 app.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
@@ -72,17 +66,5 @@ app.use(errorLogger);
 app.use(errors());
 
 app.use(errorHandler);
-// app.use((err, req, res, next) => {
-//   const { statusCode = 500, message } = err;
-
-//   res
-//     .status(statusCode)
-//     .send({
-//       message: statusCode === 500
-//         ? 'Server error'
-//         : message,
-//     });
-//   next();
-// });
 
 app.listen(PORT);
