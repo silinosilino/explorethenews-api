@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const { celebrate, Joi } = require('celebrate');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
+const cors = require('cors');
 
 const { limiter } = require('./middlewares/rateLimit');
 const { DATABASE_URL, PORT } = require('./config.js');
@@ -26,6 +27,11 @@ mongoose.connect(DATABASE_URL, {
 
 const app = express();
 
+const corsOptions = {
+  origin: 'http://localhost:8080',
+};
+app.use(cors(corsOptions));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(helmet());
@@ -37,14 +43,6 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(requestLogger);
-
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
-  res.header('Access-Control-Allow-Credentials', true);
-  next();
-});
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
@@ -64,6 +62,7 @@ app.post('/signup', celebrate({
 app.use(auth);
 app.use('/', usersRouter);
 app.use('/', articlesRouter);
+
 
 app.use(() => {
   throw new NotFoundError('Page not found');
